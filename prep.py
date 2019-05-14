@@ -37,8 +37,14 @@ def main():
     os.chdir(KERNEL_DIR)
 
     # Download & extract kernel source
-    os.system("wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.56.tar.xz")
-    os.system("tar -xvJf linux-4.4.56.tar.xz")
+    # This is the previous Linux version introduced by the assignment instruction
+    # os.system("wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.56.tar.xz")
+    # os.system("tar -xvJf linux-4.4.56.tar.xz")
+
+    # This is the Linux version I want to test
+    # - the Linux version for Ubuntu 18.10
+    os.system("wget http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.18.1.tar.gz")
+    os.system("tar -xvJf linux-4.18.1.tar.gz")
 
     os.system("ls /boot/ > boot-dir.tmp")
 
