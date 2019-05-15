@@ -1,3 +1,7 @@
+/**
+ * This file should be located in: `linux-<version>/arch/x86/kernel/`
+ */
+
 #include <linux/linkage.h>
 #include <linux/sched.h>        // `struct task_struct`
 #include <linux/mm.h>           // `struct mm_struct`
