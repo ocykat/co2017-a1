@@ -72,7 +72,7 @@ def main():
         with open(".config", "w+") as ouf:
             for line in inf:
                 if "CONFIG_LOCALVERSION=" in line:
-                    ouf.write("CONFIG_LOCALVERSION=.\"{0}\"\n".format(STUDENT_ID))
+                    ouf.write("CONFIG_LOCALVERSION=\".{0}\"\n".format(STUDENT_ID))
                 else:
                     ouf.write(line)
 
