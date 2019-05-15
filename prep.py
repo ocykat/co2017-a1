@@ -1,9 +1,15 @@
 import os
 import shutil
 
+# A list of packages required to build the kernel can be found here:
+# https://wiki.ubuntu.com/KernelTeam/GitKernelBuild
 
 PACKAGES = [
+    "bison"           ,
     "build-essential" ,
+    "ccache"          ,
+    "fakeroot"        ,
+    "flex"            ,
     "gdb"             ,
     "libncurses5-dev" ,
     "libssl-dev"      ,
@@ -11,7 +17,7 @@ PACKAGES = [
     "openssl"
 ]
 
-KERNEL_DIR = os.path.expanduser("~/kernelbuild")
+KERNEL_DIR = os.path.expanduser("~/kernelbuild2")
 
 
 def install_package(package):
@@ -43,8 +49,11 @@ def main():
 
     # This is the Linux version I want to test
     # - the Linux version for Ubuntu 18.10
+    # The .tar.xz file could not be downloaded,
+    # so I chose the .tar.gz file instead
     os.system("wget http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.18.1.tar.gz")
-    os.system("tar -xvJf linux-4.18.1.tar.gz")
+    os.system("gunzip linux-4.18.1.tar.gz")
+    os.system("tar xvf linux-4.18.1.tar")
 
     os.system("ls /boot/ > boot-dir.tmp")
 
