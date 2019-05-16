@@ -1,6 +1,7 @@
 import os
 import shutil
 
+
 # A list of packages required to build the kernel can be found here:
 # https://wiki.ubuntu.com/KernelTeam/GitKernelBuild
 
@@ -17,7 +18,7 @@ PACKAGES = [
     "openssl"
 ]
 
-KERNEL_DIR = os.path.expanduser("~/kernelbuild2")
+KERNEL_DIR = os.path.expanduser("~/kernelbuild")
 
 
 def install_package(package):
