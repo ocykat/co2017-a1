@@ -48,13 +48,14 @@ def main():
     # os.system("wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.56.tar.xz")
     # os.system("tar -xvJf linux-4.4.56.tar.xz")
 
-    # This is the Linux version I want to test
-    # - the Linux version for Ubuntu 18.10
-    # The .tar.xz file could not be downloaded,
-    # so I chose the .tar.gz file instead
-    os.system("wget http://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.18.1.tar.gz")
-    os.system("gunzip linux-4.18.1.tar.gz")
-    os.system("tar xvf linux-4.18.1.tar")
+    # This is the Linux version I want to test: 4.19.43, which is rather new
+    # In case the .tar.xz file cannot be downloaded, try the .tar.gz file instead
+    # and extract as follow:
+    # os.system("gunzip linux-4.18.1.tar.gz")
+    # os.system("tar xvf linux-4.18.1.tar")
+
+    os.system("wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.19.43.tar.xz")
+    os.system("tar -xvJf linux-4.19.43.tar.xz")
 
     os.system("ls /boot/ > boot-dir.tmp")
 
