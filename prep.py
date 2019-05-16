@@ -19,6 +19,7 @@ PACKAGES = [
 ]
 
 KERNEL_DIR = os.path.expanduser("~/kernelbuild")
+LINUX_VERSION = "linux-4.19.43"
 
 
 def install_package(package):
@@ -54,8 +55,9 @@ def main():
     # os.system("gunzip linux-4.18.1.tar.gz")
     # os.system("tar xvf linux-4.18.1.tar")
 
-    os.system("wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.19.43.tar.xz")
-    os.system("tar -xvJf linux-4.19.43.tar.xz")
+
+    os.system("wget https://www.kernel.org/pub/linux/kernel/v4.x/{0}.tar.xz".format(LINUX_VERSION));
+    os.system("tar -xvJf {0}.tar.xz".format(LINUX_VERSION))
 
     os.system("ls /boot/ > boot-dir.tmp")
 
@@ -71,7 +73,7 @@ def main():
 
     # Add student id to .config file
     with open("config.tmp", "r") as inf:
-        with open(".config", "w+") as ouf:
+        with open("{0}/.config".format(LINUX_VERSION), "w+") as ouf:
             for line in inf:
                 if "CONFIG_LOCALVERSION=" in line:
                     ouf.write("CONFIG_LOCALVERSION=\".{0}\"\n".format(STUDENT_ID))
