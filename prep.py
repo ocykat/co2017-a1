@@ -12,6 +12,7 @@ PACKAGES = [
     "fakeroot"        ,
     "flex"            ,
     "gdb"             ,
+    "libelf-dev"      ,
     "libncurses5-dev" ,
     "libssl-dev"      ,
     "kernel-package"  ,
