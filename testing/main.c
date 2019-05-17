@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 #define SIZE 100
-#define PROGMEM_SYSCALL_NUMBER 335
+#define PROGMEM_SYSCALL_NUMBER 444
 
 int main() {
     long sysvalue;
