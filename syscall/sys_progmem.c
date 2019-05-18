@@ -29,6 +29,7 @@ struct proc_segs {
 asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
 	struct task_struct* task;
     struct proc_segs tmp;
+    unsigned long uncopied_bytes;
 
     // We cannot directly assign values to `info`.
     // Instead, we use the function `copy_to_user()` to copy the data
@@ -42,11 +43,11 @@ asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
                 tmp.end_code    = task->mm->end_code;
                 tmp.start_data  = task->mm->start_data;
                 tmp.end_data    = task->mm->end_data;
-                tmp.start_heap  = task->mm->start_heap;
-                tmp.end_heap    = task->mm->end_heap;
+                tmp.start_heap  = task->mm->start_brk;
+                tmp.end_heap    = task->mm->brk;
                 tmp.start_stack = task->mm->start_stack;
 
-                unsigned long uncopied_bytes = copy_to_user(info, &tmp, sizeof(tmp));
+                uncopied_bytes = copy_to_user(info, &tmp, sizeof(tmp));
 
                 if (uncopied_bytes == 0) {
                     printk("sys_progmem: copied data from kernel successfully\n");
