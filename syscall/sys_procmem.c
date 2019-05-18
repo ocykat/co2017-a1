@@ -52,10 +52,10 @@ asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
                 uncopied_bytes = copy_to_user(info, &tmp, sizeof(tmp));
 
                 if (uncopied_bytes == 0) {
-                    printk("sys_procmem: copied data from kernel successfully\n");
+                    printk("sys_procmem: copied data from kernel space successfully\n");
                 }
                 else {
-                    printk("sys_procmem: failed to copy data from kernel\n");
+                    printk("sys_procmem: failed to copy data from kernel space\n");
                 }
 
                 return 0;
