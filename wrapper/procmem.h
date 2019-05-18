@@ -17,6 +17,6 @@ struct proc_segs {
     unsigned long start_stack;
 };
 
-long progmem_syscall(pid_t pid, struct proc_segs* info);
+long procmem_syscall(pid_t pid, struct proc_segs* info);
 
 #endif // _PROC_MEM_H_

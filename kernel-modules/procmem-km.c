@@ -25,7 +25,7 @@ static int __init procmem_init(void)
 {
     struct task_struct* task;
 
-    printk(KERN_INFO "Starting kernel module \"progmem-km\"!\n");
+    printk(KERN_INFO "Starting kernel module \"procmem-km\"!\n");
 
     for_each_process(task) {
         printk("pid : %d - name: %s\n", task->pid, task->comm);

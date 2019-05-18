@@ -27,7 +27,7 @@ struct proc_segs {
  * Return: 0 if process with given pid found, -1 otherwise.
  */
 asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
-	struct task_struct* task;
+    struct task_struct* task;
     struct proc_segs tmp;
     unsigned long uncopied_bytes;
 
@@ -35,7 +35,9 @@ asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
     // Instead, we use the function `copy_to_user()` to copy the data
     // from kernel-space to user-space
 
-	for_each_process(task) {
+    printk("sys_procmem: starting...\n");
+
+    for_each_process(task) {
         if(task->pid == pid) {
             if(task->mm != NULL) {
                 tmp.student_id  = 1752039;
@@ -50,16 +52,18 @@ asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
                 uncopied_bytes = copy_to_user(info, &tmp, sizeof(tmp));
 
                 if (uncopied_bytes == 0) {
-                    printk("sys_progmem: copied data from kernel successfully\n");
+                    printk("sys_procmem: copied data from kernel successfully\n");
                 }
                 else {
-                    printk("sys_progmem: failed to copy data from kernel\n");
+                    printk("sys_procmem: failed to copy data from kernel\n");
                 }
 
                 return 0;
             }
         }
     }
+
+    printk("sys_procmem: cannot find the process with the pid %d\n", pid);
 
     return -1;
 }
