@@ -2,7 +2,9 @@
  * This file should be located in: `linux-<version>/arch/x86/kernel/`
  */
 
-#include <linux/linkage.h>
+#include <linux/syscalls.h>     // `SYSCALL_DEFINEx` macro
+#include <linux/kernel.h>       //
+#include <linux/linkage.h>      //
 #include <linux/sched.h>        // `struct task_struct`
 #include <linux/mm.h>           // `struct mm_struct`
 #include <linux/sched/signal.h> // `for_each_process` macro
@@ -26,7 +28,8 @@ struct proc_segs {
  *
  * Return: 0 if process with given pid found, -1 otherwise.
  */
-asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
+SYSCALL_DEFINE2(procmem, int, pid, void*, info)
+{
     struct task_struct* task;
     struct proc_segs tmp;
     unsigned long uncopied_bytes;
@@ -36,6 +39,7 @@ asmlinkage long sys_procmem(int pid, struct proc_segs* info) {
     // from kernel-space to user-space
 
     printk("sys_procmem: starting...\n");
+    printk("your input pid: %d\n", pid);
 
     for_each_process(task) {
         if(task->pid == pid) {
