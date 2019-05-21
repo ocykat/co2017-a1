@@ -1,5 +1,6 @@
 #include "procmem.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -14,7 +15,7 @@ int main(int argc, char** argv)
         pid_t pid = (pid_t) atoi(argv[1]);
         printf("pid = %d\n", (int) pid);
 
-        if (procmem(pid, &info) == 0) {
+        if (procmem_syscall(pid, &info) == 0) {
             printf("procmem: successfully obtained memory layout!\n");
 			printf("Student ID   : %lu\n", info.student_id);
 			printf("Code segment : start = 0x%lx, end = 0x%lx\n", info.start_code, info.end_code);
