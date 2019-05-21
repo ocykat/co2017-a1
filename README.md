@@ -195,6 +195,8 @@ In this assignment, we are interested in these fields:
         ├── unsigned long end_code;    => where Code Segment ends
         ├── unsigned long start_data;  => where Data Segment starts
         ├── unsigned long end_data;    => where Data Segment ends
+        ├── unsigned long start_brk;   => where Heap Segment starts
+        ├── unsigned long brk;         => where Heap Segment ends
         └── unsigned long start_stack; => where Stack starts
 ```
 

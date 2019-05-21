@@ -1,0 +1,33 @@
+%!TEX root = main.tex
+
+\hi{Questions}
+
+\begin{enumerate}[1.]
+  \item Why do we need to install \lstinline{kernel-package}?
+    \par \tb{Answer}: The \lstinline{kernel-package} package includes dependencies required to build the kernel. More information can be found \href{https://launchpad.net/ubuntu/bionic/+package/kernel-package}{here}.
+  \item Why do we have to use another kernel source from the server such as \href{http://www.kernel.org}{http://www.kernel.org}, can we just compile the original kernel (the local kernel on the running OS) directly?
+    \par Instead of downloading and compiling a new kernel, we can compile the original kernel on our machine directly. However, there are certain advantages of building a new kernel version:
+    \begin{itemize}
+      \item A new kernel version often comes with bug fixes for previous kernel versions.
+      \item A new kernel version is often more stable and faster than the the previous versions.
+      \item A new kernel is better-compatible with certain hardware, such as GPU, wifi card, etc..
+      \item A new kernel version often offers new features and functionalities.
+    \end{itemize}
+  \item What is the meaning of each line above?
+  \item What is the meaning of other components, i.e. i386, procmem, and \lstinline{sys_procmem}?
+  \item What is the meaning of these two stages, namely “make” and “make modules”?
+    \begin{itemize}
+      \item \lstinline{make}: compiles and links the kernel image. This is a single file named \lstinline{vmlinuz} (or \lstinline{bzImage}, not sure for now).
+      \item \lstinline{make modules}: compiles individual files for each question you answered \lstinline{M} during kernel config. The object code is linked against your freshly built kernel. (For questions answered \lstinline{Y}, these are already part of \lstinline{vmlinuz}, and for questions answered \lstinline{N} they are skipped).
+    \end{itemize}
+  \item Why could this program indicate whether our system call works or not?
+  \item Why do we have to re-define \lstinline{proc_segs} struct while we have already defined it inside the kernel?
+  \item Why is root privilege (e.g. adding sudo before the cp command) required to copy the header fle to \lstinline{/usr/include}?
+    \par \tb{Answer}: In Linux, a normal user only has the write privilege inside his `home` directory. To have write privilege to directories outside \lstinline{home}, one needs \lstinline{sudo} to run the command with the superuser's privilege. Because \lstinline{/usr/include} is a directory outside of \lstinline{home}, we need to use \lstinline{sudo}.
+  \item Why must we put \lstinline{-shared} and \lstinline{-fpic} options into the gcc command?
+    \par \tb{Answer}: The \lstinline{-shared} and \lstinline{-fPIC} (or \lstinline{-fpic}) flags are required to build a shared object for dynamic linking. More precisely, according to \href{https://gcc.gnu.org/onlinedocs/gcc-2.95.2/gcc_2.html#SEC13}{here}:
+    \begin{itemize}
+      \item \lstinline{-shared}: Produce a shared object which can then be linked with other objects to form an executable. Not all systems support this option. You must also specify \lstinline{-fpic} or \lstinline{-fPIC} on some systems when you specify this option.
+      \item \lstinline{-fPIC}: Emit position-independent code, suitable for dynamic linking and avoiding any limit on the size of the global offset table.
+    \end{itemize}
+\end{enumerate}
