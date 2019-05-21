@@ -1,0 +1,91 @@
+%!TEX root = main.tex
+
+\hi{Introduction}
+
+\par In this assignment, I am required to create a system call for the Linux Operating System. The system call is called \lstinline{procmem}. The output of this system call should be the memory layout of a process specified by its process identification number (pid).
+
+\par A \tb{system call}, according to the Linux Manual \cite{manpagesyscall}, is the fundamental interface between an application and the Linux kernel. We can simply understand system calls as ``tools'' provided for applications to interact with the kernel and other low-level components of the computer. These ``tools'' are special in the way that they are:
+
+\begin{itemize}
+  \item safe to use: application programmers do not have to worry about whether the application will do harm to the operating system as well as hardware components.
+  \item easy to use: application programmers are provided with a higher-level of abstraction to interact with the operating system and hardware components through APIs.
+\end{itemize}
+
+
+\hi{Methodology}
+
+\par To complete this assignment, I have followed these steps:
+  \begin{itemize}
+    \item \tb{Step 1}: Install a Virtual Machine with a Linux Operating System.
+    \item \tb{Step 2}: Figure out the logic of the system call.
+    \item \tb{Step 3}: Implement and test the logic of the system call through a kernel module.
+    \item \tb{Step 3}: Implement the system call.
+    \item \tb{Step 4}: Build and install the system call with a new kernel.
+    \item \tb{Step 5}: Write a wrapper for the system call.
+  \end{itemize}
+
+\par Each of the steps will be covered in the following section.
+
+  \hii{Virtual Machine}
+    \par In this project, we need to work with the kernel. It is a bad idea to work on an in-use machine because in case something wrong happens, the operating system may be corrupted and the machine may become unusable. Therefore, we are highly recommended to use a virtual machine.
+    \par Here is the description of the virtual machine that I used for this project:
+    \begin{center}
+      \begin{tabular}{|c|c|}
+      \hline
+      \textbf{Operating System}         & Ubuntu 18.04 LTS (Bionic Beaver) - 64bit \\ \hline
+      \textbf{Linux Version (original)} & 4.15.0                                   \\ \hline
+      \textbf{Virtual Machine Software} & Oracle Virtual Box 6.0.6                 \\ \hline
+      \textbf{Storage}                  & 32GB (with 4GB for swap area)            \\ \hline
+      \end{tabular}
+    \end{center}
+    \par The version of Ubuntu that I used for this assignment can be downloaded from \href{https://help.ubuntu.com/community/Installation/MinimalCD}{here}.
+
+  \hii{The Logic of the System Call}
+    \par The system call that we were asked to implement is called \lstinline{procmem}, which returns the description of the memory layout of a process.
+
+    \hiii{Memory Layout of a Process}
+      \par The memory of a process in Linux consists of these major parts:
+      \begin{itemize}
+        \item \tb{Code segment}: contains the binary code of the program which is running as a process.
+        \item \tb{Data segment}: contains the initialized global variables and data structures.
+        \item \tb{Heap segment}: contains the dynamically-allocated variables.
+        \item \tb{Stack segment}: contains the local variables, return addresses, etc.
+      \end{itemize}
+
+    \hiii{Getting information of a Process in Linux}
+      \par In Linux, each process corresponds to a struct \lstinline{task_struct}. In \lstinline{task_struct}, there is a member struct \lstinline{mm_struct} that stores the memory layout of the process:
+
+      \begin{center}
+        \begin{tabular}{|c|c|c|}
+          \hline
+          \tb{Member of mm\_struct} & \tb{Data type} & \tb{Description}    \\
+          \hline
+          start\_code          & unsigned long & where Code Segment starts \\
+          \hline
+          end\_code            & unsigned long & where Code Segment ends   \\
+          \hline
+          start\_data          & unsigned long & where Data Segment starts \\
+          \hline
+          end\_data            & unsigned long & where Data Segment ends   \\
+          \hline
+          start\_brk           & unsigned long & where Heap Segment starts \\
+          \hline
+          brk                  & unsigned long & where Heap Segment ends   \\
+          \hline
+          start\_stack         & unsigned long & where Stack starts        \\
+          \hline
+        \end{tabular}
+      \end{center}
+
+      \par The source code for \lstinline{task_struct} and \lstinline{mm_struct} can be found \href{https://github.com/torvalds/linux/blob/a13f0655503a4a89df67fdc7cac6a7810795d4b3/include/linux/sched.h#L585}{here} and \href{https://github.com/torvalds/linux/blob/a13f0655503a4a89df67fdc7cac6a7810795d4b3/include/linux/mm_types.h#L351}{here}, respectively.
+
+    \hiii{The Logic of the System Call}
+
+  \hii{Kernel Module}
+    \hiii{What are kernel modules?}
+      \par According to The Linux Kernel Module Programming Guide \cite{kernelmoduleguide}, modules are pieces of code that can be loaded into and unloaded from the kernel upon demand. Without kernel modules, every time we need to add a new functionality to the kernel, we have to rebuild the whole kernel and directly add that functionality to the kernel image. The process of rebuilding the kernel and reboot takes a great amount of time and would not help much with our testing purpose.
+      \par In this assignment, we use kernel module to test the logic of the system call first before implementing it and adding it to the kernel.
+
+    \hiii{Implement a kernel module}
+      \par This is the source code of my kernel module:
+      % \begin{lstlisting}[style=c]
