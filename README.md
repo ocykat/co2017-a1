@@ -23,7 +23,7 @@ The version of Ubuntu that I installed is a minimal version with no Desktop Envi
 
 ## Background Knowledge
 ### Kernel Modules
-#### What is kernel modules?
+#### What are kernel modules?
 **Kernel modules** are pieces of code that can be loaded and unloaded into the kernel upon demand. Without modules, one needs to rebuild and reboot the kernel every time a new functionality is added - which is super time-consuming for our testing purpose.
 
 [*More info*](http://tldp.org/LDP/lkmpg/2.6/html/x40.html)
